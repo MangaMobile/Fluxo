@@ -8,6 +8,7 @@
     android:background="@mipmap/vinhogroupon3">
 
     <!-- Login progress -->
+
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
@@ -16,10 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="FLUXO"
+        android:text="Fluxo"
         android:id="@+id/textView2"
         android:textColor="#761d1d"
-        android:textStyle="bold|italic"
+        android:typeface="serif"
         android:textSize="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginRight="90dp" />
@@ -28,13 +29,15 @@
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:id="@+id/imageView2"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="" />
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -58,11 +61,21 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="Logar"
-                android:textStyle="bold" />
+            <Button android:id="@+id/email_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_activity_login"
+                android:textStyle="bold"
+                />
 
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

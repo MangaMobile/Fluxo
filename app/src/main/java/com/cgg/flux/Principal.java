@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ImageButton music,bott1,bott2,bott3,bott4;
+    TextView timer;
     boolean Click = false;
 
     @Override
@@ -50,7 +52,12 @@ public class Principal extends AppCompatActivity
         bott2 = (ImageButton) findViewById(R.id.But2);
         bott3 = (ImageButton) findViewById(R.id.But3);
         bott4 = (ImageButton) findViewById(R.id.But4);
+        timer = (TextView) findViewById(R.id.timer);
 
+        timer.setText("00:00:45");
+
+        final CounterClass ti = new CounterClass(46000,1000, timer);
+        ti.start();
 
         music.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0){
@@ -78,37 +85,34 @@ public class Principal extends AppCompatActivity
                 }
             }
         });
-       bott2.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
-                if(Click  == false){
-                    bott2.setBackgroundColor(Color.LTGRAY);
-                    Click = true;
-                }
-                else {
-                    bott2.setBackgroundColor(Color.CYAN);
-                    Click = false;
-                }
-            }
-        });
-        bott3.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
-                if(Click  == false){
+       bott2.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View arg0) {
+               if (Click == false) {
+                   bott2.setBackgroundColor(Color.LTGRAY);
+                   Click = true;
+               } else {
+                   bott2.setBackgroundColor(Color.CYAN);
+                   Click = false;
+               }
+           }
+       });
+        bott3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                if (Click == false) {
                     bott3.setBackgroundColor(Color.MAGENTA);
                     Click = true;
-                }
-                else {
+                } else {
                     bott3.setBackgroundColor(Color.GRAY);
                     Click = false;
                 }
             }
         });
-        bott4.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
-                if(Click  == false){
+        bott4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                if (Click == false) {
                     bott4.setBackgroundColor(Color.GREEN);
                     Click = true;
-                }
-                else {
+                } else {
                     bott4.setBackgroundColor(Color.BLACK);
                     Click = false;
                 }
@@ -118,6 +122,8 @@ public class Principal extends AppCompatActivity
     }
 
     @Override
+
+
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -174,3 +180,5 @@ public class Principal extends AppCompatActivity
         return true;
     }
 }
+
+
