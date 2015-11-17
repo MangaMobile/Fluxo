@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.facebook.FacebookSdk;
 
 import java.util.ArrayList;
@@ -56,11 +61,14 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
      */
     private UserLoginTask mAuthTask = null;
 
+
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private DynamoDBMapper mapper;
+    private Button cad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,18 +96,35 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                startThirdActivity();
+
+            }
+        });
+
+        cad = (Button) findViewById(R.id.cad);
+        cad.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0){
+                startCadActivity();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
     }
 
     public void startThirdActivity() {
 
         Intent thirdActivity = new Intent(this, Principal.class);
         startActivity(thirdActivity);
+    }
+
+    public void startCadActivity() {
+
+        Intent cadActivity = new Intent(this, Cadastros.class);
+        startActivity(cadActivity);
     }
 
     private void populateAutoComplete() {
@@ -168,7 +193,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
         boolean cancel = false;
         View focusView = null;
-
+        conexao();
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -197,17 +222,21 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            startThirdActivity();
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        boolean veri = verificaEmail(email);
+        return veri;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        String email = mEmailView.getText().toString();
+        boolean veri = verificaSenha(email, password);
+        return veri;
     }
 
     /**
@@ -356,5 +385,57 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             showProgress(false);
         }
     }
+
+    public void conexao() {
+
+        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                "us-east-1:c5b97ca1-edcf-4eff-a431-411455b80afa", // Identity Pool ID
+                Regions.US_EAST_1 // Region
+        );
+
+       /* CognitoSyncManager syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.US_EAST_1, // Region
+                credentialsProvider);
+
+        // Create a record in a dataset and synchronize with the server
+        Dataset dataset = syncClient.openOrCreateDataset("myDataset");
+        dataset.put("myKey", "myValue");
+        dataset.synchronize(new DefaultSyncCallback() {
+            @Override
+            public void onSuccess(Dataset dataset, List newRecords) {
+                //Your handler code here
+            }
+        });*/
+
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+        mapper = new DynamoDBMapper(ddbClient);
+
+        insert(mapper);
+    }
+
+    public void insert(DynamoDBMapper mapper){
+        Cadastro user = new Cadastro();
+        user.setNome("Giovane");
+        user.setEmail("giovane.andrade@gmail.com");
+        user.setSenha("148822");
+        user.setID("giovane.andrade@gmail.com");
+
+        mapper.save(user);
+    }
+
+    public boolean verificaEmail(String email){
+        Cadastro sel = this.mapper.load(Cadastro.class, email);
+
+        if(sel == null ) return false;
+        else return true;
+    }
+    public boolean verificaSenha(String email, String Pass){
+        Cadastro sel = this.mapper.load(Cadastro.class, email);
+        if(sel == null || !(Pass.equals(sel.getSenha()))) return false;
+        else return true;
+    }
+
 }
 
