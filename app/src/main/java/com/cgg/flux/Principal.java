@@ -47,10 +47,12 @@ public class Principal extends AppCompatActivity
 
 
         music = (ImageButton) findViewById(R.id.som);
+
         bott1 = (ImageButton) findViewById(R.id.But1);
         bott2 = (ImageButton) findViewById(R.id.But2);
         bott3 = (ImageButton) findViewById(R.id.But3);
         bott4 = (ImageButton) findViewById(R.id.But4);
+
         timer = (TextView) findViewById(R.id.timer);
 
         timer.setText("00:00:45");
@@ -215,6 +217,7 @@ public class Principal extends AppCompatActivity
                 //startActivity(i);
                 animationActivity();
                 overridePendingTransition(R.anim.transicao, R.anim.transicao2);
+                finish();
 
             }
         });

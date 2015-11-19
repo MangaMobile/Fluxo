@@ -1,8 +1,8 @@
 package com.cgg.flux;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,7 +22,7 @@ public class Geral extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ImageButton music,bott1,bott2,bott3,bott4;
-    TextView timer;
+    TextView timer,perg;
     boolean Click1 = false;
     boolean Click = false;
     MediaPlayer rap,rock,eletro;
@@ -46,10 +46,13 @@ public class Geral extends AppCompatActivity
 
 
         music = (ImageButton) findViewById(R.id.som);
+
         bott1 = (ImageButton) findViewById(R.id.But1);
         bott2 = (ImageButton) findViewById(R.id.But2);
         bott3 = (ImageButton) findViewById(R.id.But3);
         bott4 = (ImageButton) findViewById(R.id.But4);
+        perg = (TextView) findViewById(R.id.text1);
+
         timer = (TextView) findViewById(R.id.timer);
         rap = MediaPlayer.create(this,R.raw.dresnoop);
         rock = MediaPlayer.create(this,R.raw.jeremy);
@@ -60,72 +63,63 @@ public class Geral extends AppCompatActivity
 
         final CounterClass ti = new CounterClass(46000,1000, timer);
         ti.start();
+        //perg.setText("Cor favorita?");
+        int cont = (int)(10*Math.random());
+        escolher(cont);
+        //bott1.setBackgroundColor(Color.RED);
+        //bott2.setBackgroundColor(Color.LTGRAY);
+        //bott3.setBackgroundColor(Color.MAGENTA);
+
 
         music.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0){
+            public void onClick(View arg0) {
 
-                if(Click  == false){
+                if (Click == false) {
                     music.setBackgroundResource(R.mipmap.oie_transparentnots);
                     Click = true;
                     rap.pause();
                     rock.pause();
                     eletro.pause();
-                }
-                else {
+                } else {
                     music.setBackgroundResource(R.mipmap.oie_transparent2);
                     Click = false;
                 }
             }
         });
 
-        bott1.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
-                if(Click1  == false){
-                    //bott1.setBackgroundColor(Color.RED);
-                    Click1 = true;
-                    boolean diag = exemplo_simples(1);
-                    //startFourthActivity();
-                }
-                else {
-                    // bott1.setBackgroundColor(Color.BLUE);
-                    Click1 = false;
-                }
+        bott1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                // bott2.setBackgroundColor(Color.LTGRAY);
+                animationActivity();
+                overridePendingTransition(R.anim.transicao, R.anim.transicao2);
+                finish();
             }
         });
 
         bott2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (Click1 == false) {
-                    // bott2.setBackgroundColor(Color.LTGRAY);
-                    exemplo_simples(2);
-                    Click1 = true;
-                } else {
-                    // bott2.setBackgroundColor(Color.CYAN);
-                    Click1 = false;
-                }
+            // bott2.setBackgroundColor(Color.LTGRAY);
+                    animationActivity();
+                    overridePendingTransition(R.anim.transicao, R.anim.transicao2);
+                finish();
+
+
             }
         });
         bott3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (Click1 == false) {
-                    //bott3.setBackgroundColor(Color.MAGENTA);
-                    exemplo_simples(3);
-                    Click1 = true;
-                } else {
-                    //bott3.setBackgroundColor(Color.GRAY);
-                    Click1 = false;
-                }
+                animationActivity();
+                overridePendingTransition(R.anim.transicao, R.anim.transicao2);
+                finish();
+
             }
         });
         bott4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (Click1 == false) {
-                    // bott4.setBackgroundColor(Color.GREEN);
-                    Click1 = true;
-                } else {
-                    //bott4.setBackgroundColor(Color.BLACK);
-                    Click1 = false;
-                }
+                animationActivity();
+                overridePendingTransition(R.anim.transicao, R.anim.transicao2);
+                finish();
+
             }
         });
 
@@ -183,7 +177,7 @@ public class Geral extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camara) {
-            startFourthActivity();
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -193,7 +187,7 @@ public class Geral extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            startFourthActivity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -201,7 +195,7 @@ public class Geral extends AppCompatActivity
         return true;
     }
 
-    private boolean exemplo_simples(final int opc) {
+   /* private boolean exemplo_simples(final int opc) {
         //Cria o gerador do AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -230,12 +224,72 @@ public class Geral extends AppCompatActivity
         alerta.show();
 
         return true;
-    }
+    }*/
 
     public void animationActivity() {
 
-        Intent i= new Intent(this, Principal.class);
+        Intent i= new Intent(this, Geral.class);
         startActivity(i);
+    }
+
+    public void escolher(int num){
+
+
+        if(num == 1 ) {
+            perg.setText("Cor favorita?");
+            bott1.setBackgroundColor(Color.RED);
+            bott2.setBackgroundColor(Color.LTGRAY);
+            bott3.setBackgroundColor(Color.MAGENTA);
+        }
+        else if(num == 2 ) {
+            perg.setText("Fruta favorita?");
+            bott1.setBackgroundResource(R.mipmap.manga1);
+            bott2.setBackgroundResource(R.mipmap.laranja);
+            bott3.setBackgroundResource(R.mipmap.maca);
+        }
+        else if(num == 3 ) {
+            perg.setText("Animal favorito?");
+            bott1.setBackgroundResource(R.mipmap.dog);
+            bott2.setBackgroundResource(R.mipmap.leo);
+            bott3.setBackgroundResource(R.mipmap.cat);
+        }
+        else if(num == 4 ) {
+            perg.setText("Empresa favorita?");
+            bott1.setBackgroundResource(R.mipmap.apple);
+            bott2.setBackgroundResource(R.mipmap.google);
+            bott3.setBackgroundResource(R.mipmap.manga);
+        }
+        else if(num == 5 ) {
+            perg.setText("Cidade favorita?");
+            bott1.setBackgroundResource(R.mipmap.paris);
+            bott2.setBackgroundResource(R.mipmap.vegas);
+            bott3.setBackgroundResource(R.mipmap.tokyo);
+        }
+        else if(num == 6 ) {
+            perg.setText("Jogo favorito?");
+            bott1.setBackgroundResource(R.mipmap.gta);
+            bott2.setBackgroundResource(R.mipmap.hf2);
+            bott3.setBackgroundResource(R.mipmap.assassin);
+        }
+        else if(num == 7 ) {
+            perg.setText("Clima favorito?");
+            bott1.setBackgroundResource(R.mipmap.sol);
+            bott2.setBackgroundResource(R.mipmap.nublado);
+            bott3.setBackgroundResource(R.mipmap.neve);
+        }
+
+        else if(num == 8 ) {
+            perg.setText("Planeta favorito?");
+            bott1.setBackgroundResource(R.mipmap.saturn);
+            bott2.setBackgroundResource(R.mipmap.marte);
+            bott3.setBackgroundResource(R.mipmap.jupiter);
+        }
+        else if(num == 9 ) {
+            perg.setText("Banda de Rock favorito?");
+            bott1.setBackgroundResource(R.mipmap.angra);
+            bott2.setBackgroundResource(R.mipmap.metalica);
+            bott3.setBackgroundResource(R.mipmap.artic);
+        }
     }
 
 

@@ -24,4 +24,6 @@
     <string name="title_activity_amazon">amazon</string>
     <string name="title_activity_cadastros">Cadastros</string>
     <string name="title_activity_geral">geral</string>
+    <string name="title_activity_cadt">Cadastro</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

@@ -123,7 +123,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
     public void startCadActivity() {
 
-        Intent cadActivity = new Intent(this, Cadastros.class);
+        Intent cadActivity = new Intent(this, Cadt.class);
         startActivity(cadActivity);
     }
 
@@ -223,6 +223,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             startThirdActivity();
+            finish();
         }
     }
 

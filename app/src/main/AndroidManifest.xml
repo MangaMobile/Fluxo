@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MangaCorp"
-            android:label="@string/title_activity_principal"
+            android:label="Fluxo"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name=".Principal"
-            android:label="Fluxo2"
+            android:label="Intro"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
@@ -59,8 +59,10 @@
         </activity>
         <activity
             android:name=".Geral"
-            android:label="@string/title_activity_geral"
+            android:label="Jogo"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".Cadt" >
         </activity>
     </application>
 
